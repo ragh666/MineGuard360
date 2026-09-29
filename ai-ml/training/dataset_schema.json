@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MineGuard360TrainingDatasetSchema",
+  "type": "object",
+  "required": ["speed", "distance", "relative_velocity", "risk_score", "risk_level"],
+  "properties": {
+    "vehicle_id": { "type": "string" },
+    "speed": { "type": "number", "minimum": 0, "maximum": 80 },
+    "distance": { "type": "number", "minimum": 0, "maximum": 200 },
+    "relative_velocity": { "type": "number" },
+    "ttc": { "type": ["number", "null"] },
+    "stopping_distance": { "type": "number" },
+    "required_distance": { "type": "number" },
+    "block_status": { "type": "string", "enum": ["FREE", "RESERVED", "OCCUPIED", "EXIT_PENDING"] },
+    "safe_corridor": { "type": "string", "enum": ["LEFT", "CENTER", "RIGHT", "NONE"] },
+    "sensor_health": { "type": "string", "enum": ["GOOD", "DEGRADED", "FAULT"] },
+    "risk_score": { "type": "integer", "minimum": 0, "maximum": 100 },
+    "risk_level": { "type": "string", "enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"] }
+  }
+}
