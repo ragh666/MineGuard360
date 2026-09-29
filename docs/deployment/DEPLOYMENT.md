@@ -72,8 +72,6 @@ The Driver Display is an independent Vite/React single-page application located 
 4. **Environment Variables:**
    ```env
    VITE_BACKEND_URL=https://mineguard360-backend.onrender.com
-   VITE_WS_URL=https://mineguard360-backend.onrender.com
-   VITE_API_URL=https://mineguard360-backend.onrender.com
    ```
 5. Click **Deploy**. The site will open directly at `https://mineguard360-driver.vercel.app/` without blank pages.
 
@@ -96,8 +94,6 @@ The Control-Room Dashboard is an independent Vite/React application located in `
 4. **Environment Variables:**
    ```env
    VITE_BACKEND_URL=https://mineguard360-backend.onrender.com
-   VITE_WS_URL=https://mineguard360-backend.onrender.com
-   VITE_API_URL=https://mineguard360-backend.onrender.com
    ```
 5. Click **Deploy**. The site will open directly at `https://mineguard360-dashboard.vercel.app/`.
 

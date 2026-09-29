@@ -21,6 +21,8 @@ const envOrigins = process.env.CORS_ORIGINS
   : [];
 
 const allowedOrigins = [
+  "https://mineguard360-driver.vercel.app",
+  "https://mineguard360-dashboard.vercel.app",
   "http://localhost:3000",
   "http://localhost:3001",
   "http://127.0.0.1:3000",
@@ -34,10 +36,10 @@ app.use(
   cors({
     origin: (origin, callback) => {
       // allow requests with no origin (curl, mobile, server-to-server)
-      if (!origin || allowedOrigins.includes(origin) || origin.endsWith(".vercel.app")) {
+      if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
-        callback(null, true);
+        callback(new Error(`Origin not allowed by CORS: ${origin}`));
       }
     },
     credentials: true,
@@ -50,10 +52,10 @@ app.use(express.json());
 const io = new SocketIOServer(server, {
   cors: {
     origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin) || origin.endsWith(".vercel.app")) {
+      if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
-        callback(null, true);
+        callback(new Error(`Origin not allowed by Socket.IO CORS: ${origin}`));
       }
     },
     methods: ["GET", "POST"],

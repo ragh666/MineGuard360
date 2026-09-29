@@ -1,21 +1,6 @@
 import { io, Socket } from "socket.io-client";
 
-const getBackendUrl = () => {
-  if (typeof import.meta !== "undefined") {
-    const env = (import.meta as any).env;
-    if (env?.VITE_WS_URL) return env.VITE_WS_URL;
-    if (env?.VITE_API_URL) return env.VITE_API_URL;
-    if (env?.VITE_BACKEND_URL) return env.VITE_BACKEND_URL;
-  }
-  if (typeof window !== "undefined") {
-    if (window.location.port === "4000" || (window.location.port !== "3000" && window.location.port !== "3001" && window.location.port !== "5173")) {
-      return window.location.origin;
-    }
-  }
-  return "http://localhost:4000";
-};
-
-const BACKEND_URL = getBackendUrl();
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 export type ConnectionStatus = "CONNECTED" | "CONNECTING" | "CONNECTION LOST";
 
@@ -24,13 +9,26 @@ class SocketService {
   private statusListeners: Array<(status: ConnectionStatus) => void> = [];
   private currentStatus: ConnectionStatus = "CONNECTING";
 
-  public init(): Socket {
+  public init(): Socket | null {
     if (this.socket) {
       return this.socket;
     }
 
     this.currentStatus = "CONNECTING";
     this.notifyStatus(this.currentStatus);
+
+    if (!BACKEND_URL) {
+      this.currentStatus = "CONNECTION LOST";
+      this.notifyStatus(this.currentStatus);
+      if (import.meta.env.DEV) {
+        console.error("[SocketService] VITE_BACKEND_URL is not configured");
+      }
+      return null;
+    }
+
+    if (import.meta.env.DEV) {
+      console.log("[SocketService] Backend URL:", BACKEND_URL);
+    }
 
     this.socket = io(BACKEND_URL, {
       reconnection: true,
@@ -42,19 +40,25 @@ class SocketService {
     });
 
     this.socket.on("connect", () => {
-      console.log(`[SocketService] Connected to Shared Backend at ${BACKEND_URL}`);
+      if (import.meta.env.DEV) {
+        console.log("[SocketService] Socket connected:", this.socket?.id);
+      }
       this.currentStatus = "CONNECTED";
       this.notifyStatus(this.currentStatus);
     });
 
     this.socket.on("disconnect", (reason) => {
-      console.warn(`[SocketService] Disconnected from Backend (${reason})`);
+      if (import.meta.env.DEV) {
+        console.warn(`[SocketService] Disconnected from Backend (${reason})`);
+      }
       this.currentStatus = "CONNECTION LOST";
       this.notifyStatus(this.currentStatus);
     });
 
     this.socket.on("connect_error", (error) => {
-      console.warn(`[SocketService] Connection error:`, error.message);
+      if (import.meta.env.DEV) {
+        console.warn(`[SocketService] Connection error:`, error.message);
+      }
       this.currentStatus = "CONNECTION LOST";
       this.notifyStatus(this.currentStatus);
     });

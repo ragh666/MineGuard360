@@ -130,9 +130,9 @@ export function generateSafeCorridorPath(
   for (let i = 0; i <= numSteps; i++) {
     const y = (i / numSteps) * pathLengthM;
 
-    // Smooth Sigmoid/S-curve lateral transition towards selected direction + road curvature
+    // Keep the normal center corridor exactly straight.
     const t = y / pathLengthM;
-    const bendX = targetXM * Math.sin(t * Math.PI * 0.8) + curvature * Math.pow(t, 1.8) * 10;
+    const bendX = targetXM === 0 ? 0 : targetXM * Math.sin(t * Math.PI * 0.8) + curvature * Math.pow(t, 1.8) * 10;
 
     centerline.push({ x: bendX, y });
     leftBoundary.push({ x: bendX - halfWidth, y });

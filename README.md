@@ -334,9 +334,8 @@ cp .env.example .env
 | `PORT` / `BACKEND_PORT` | `4000` | Port for Express & Socket.IO |
 | `DRIVER_PORT` | `3000` | Local dev port for Driver Display |
 | `DASHBOARD_PORT` | `3001` | Local dev port for Control Dashboard |
-| `VITE_BACKEND_URL` | `http://localhost:4000` | Backend API URL for frontends |
-| `VITE_WS_URL` | `http://localhost:4000` | WebSocket connection URL |
-| `CORS_ORIGINS` | `""` | Comma-separated allowed frontend origins |
+| `VITE_BACKEND_URL` | `https://mineguard360-backend.onrender.com` | Backend API and Socket.IO URL for frontends |
+| `CORS_ORIGINS` | `https://mineguard360-driver.vercel.app,https://mineguard360-dashboard.vercel.app` | Comma-separated allowed frontend origins |
 | `SIMULATION_MODE` | `true` | Enables POC simulation mode indicator |
 | `AI_SERVICE_URL` | `""` | Optional URL of external trained AI model |
 
@@ -357,7 +356,7 @@ Deploy `driver-display/` to Vercel or Netlify:
 2. Framework preset: `Vite`
 3. Build command: `npm run build`
 4. Output directory: `dist`
-5. Set `VITE_BACKEND_URL` and `VITE_WS_URL` to your deployed backend URL.
+5. Set `VITE_BACKEND_URL=https://mineguard360-backend.onrender.com`.
 
 ### Dashboard Deployment
 Deploy `dashboard/` to Vercel or Netlify:
@@ -365,7 +364,7 @@ Deploy `dashboard/` to Vercel or Netlify:
 2. Framework preset: `Vite`
 3. Build command: `npm run build`
 4. Output directory: `dist`
-5. Set `VITE_BACKEND_URL` and `VITE_WS_URL` to your deployed backend URL.
+5. Set `VITE_BACKEND_URL=https://mineguard360-backend.onrender.com`.
 
 ---
 

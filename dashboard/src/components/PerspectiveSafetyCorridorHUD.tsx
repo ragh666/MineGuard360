@@ -32,7 +32,7 @@ export const PerspectiveSafetyCorridorHUD: React.FC<PerspectiveSafetyCorridorHUD
   visibilityMeters = 9.1,
 }) => {
   const { t } = useTranslation();
-  const isCurve = blockId === "B1" || blindCurve;
+  const isCurve = (blockId === "B1" || blindCurve) && (radar.angleDeg ?? 0) !== 0;
   const isNarrow = blockId === "B2";
   const currentVisM = environment.visibilityMeters ?? visibilityMeters ?? 9.1;
 
